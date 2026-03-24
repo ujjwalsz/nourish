@@ -1,16 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import AppLayout from "@/components/layout/AppLayout";
+import Dashboard from "@/components/dashboard/Dashboard";
+import NutritionChat from "@/components/chat/NutritionChat";
+import MealLogger from "@/components/meals/MealLogger";
+import FoodAnalyzer from "@/components/analyze/FoodAnalyzer";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "chat":
+        return <NutritionChat />;
+      case "meals":
+        return <MealLogger />;
+      case "analyze":
+        return <FoodAnalyzer />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <AppLayout activeTab={activeTab} onTabChange={setActiveTab}>
+      {renderContent()}
+    </AppLayout>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
