@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, UtensilsCrossed, Search, LayoutDashboard, Leaf } from "lucide-react";
+import { MessageCircle, UtensilsCrossed, Search, LayoutDashboard, Leaf, TrendingUp, Sparkles } from "lucide-react";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -13,6 +13,8 @@ const tabs = [
   { id: "chat", label: "AI Chat", icon: MessageCircle },
   { id: "meals", label: "Meals", icon: UtensilsCrossed },
   { id: "analyze", label: "Analyze", icon: Search },
+  { id: "charts", label: "Trends", icon: TrendingUp },
+  { id: "planner", label: "Planner", icon: Sparkles },
 ];
 
 const AppLayout = ({ children, activeTab, onTabChange }: AppLayoutProps) => {
