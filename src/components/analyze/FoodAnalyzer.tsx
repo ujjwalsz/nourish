@@ -183,6 +183,7 @@ const FoodAnalyzer = () => {
 
       const data: NutritionResult = await resp.json();
       setResult(data);
+      saveAnalyzedFood(data, "image");
       toast.success(`Analyzed: ${data.name}`);
     } catch (e) {
       console.error(e);
