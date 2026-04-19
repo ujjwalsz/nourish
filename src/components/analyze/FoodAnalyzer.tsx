@@ -318,6 +318,14 @@ const FoodAnalyzer = () => {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-4"
         >
+          <Button
+            onClick={logAsMeal}
+            disabled={isLogging}
+            className="w-full rounded-xl gap-2"
+          >
+            {isLogging ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+            Log this meal
+          </Button>
           <div className="rounded-xl border bg-card p-6">
             <div className="flex items-start justify-between gap-3 mb-4">
               <div className="flex items-center gap-3">
