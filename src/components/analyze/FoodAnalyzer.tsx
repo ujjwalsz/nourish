@@ -79,13 +79,57 @@ const fileToDataUrl = (file: File) =>
   });
 
 const FoodAnalyzer = () => {
+  const { user } = useAuth();
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<NutritionResult | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
+  const [isLogging, setIsLogging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  const saveAnalyzedFood = async (data: NutritionResult, source: "image" | "search") => {
+    if (!user) return;
+    await supabase.from("analyzed_foods").insert({
+      user_id: user.id,
+      name: data.name,
+      serving: data.serving,
+      description: data.description ?? null,
+      confidence: data.confidence ?? null,
+      source,
+      calories: data.calories,
+      protein: data.protein,
+      carbs: data.carbs,
+      fat: data.fat,
+      fiber: data.fiber,
+      sugar: data.sugar,
+      vitamins: data.vitamins ?? [],
+      health_notes: data.healthNotes ?? [],
+    });
+  };
+
+  const logAsMeal = async () => {
+    if (!user || !result) return;
+    setIsLogging(true);
+    const { error } = await supabase.from("meals").insert({
+      user_id: user.id,
+      name: result.name,
+      category: "Snack",
+      calories: result.calories,
+      protein: result.protein,
+      carbs: result.carbs,
+      fat: result.fat,
+      fiber: result.fiber,
+      sugar: result.sugar,
+    });
+    setIsLogging(false);
+    if (error) {
+      toast.error("Failed to log meal");
+      return;
+    }
+    toast.success(`Logged ${result.name} to your meal log`);
+  };
 
   const analyze = (searchTerm: string) => {
     const key = searchTerm.toLowerCase().trim();
